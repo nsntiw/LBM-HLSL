@@ -5,12 +5,24 @@ class bool_op():
       return a
 
    @staticmethod
-   def add(a1, a2):
+   def ADD(a1, a2):
       return 1 if a1+a2 == 1 else 0
 
    @staticmethod
-   def subtract(a1, a2):
+   def SUBTRACT(a1, a2):
       return max(a1-a2,0)
+
+   @staticmethod
+   def AND(a1, a2):
+      return 1 if a1==a2==1 else 0
+
+   @staticmethod
+   def OR(a1, a2):
+      return bool_op.truncate_to_binary(a1+a2)
+
+   @staticmethod
+   def NOT(a):
+      return bool_op.truncate_to_binary(abs(1-a))
 
 class test():
    def __init__(self, operation, num_bits):
@@ -23,11 +35,12 @@ class test():
 
 
 opA, opB = [1]*4, [1]*4
-
 print(opA, opB)
-print(bool_op.subtract(1,1))
-print(bool_op.subtract(0,1))
-print(bool_op.subtract(1,0))
-print(bool_op.subtract(0,0))
-a = 0
-print(a)
+
+print(bool_op.OR(0,0))
+print(bool_op.OR(0,1))
+print(bool_op.OR(1,0))
+print(bool_op.OR(1,1))
+
+print(bool_op.NOT(0))
+print(bool_op.NOT(1))
