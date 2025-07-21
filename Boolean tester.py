@@ -24,15 +24,31 @@ class bool_op():
    def NOT(a): #OK
       return bool_op.truncate_to_binary(abs(1-a))
 
+   @staticmethod
+   def XOR(a1, a2): #OK
+      return 1 if a1+a2==1 else 0
+
 class TESTER():
-   def __init__(self, operation, num_bits):
+   def __init__(self, operation, bit_width, bit_split=[]):
       self.operation = operation
-      self.num_bits = num_bits
-      self.sequence = []
-   
-   def generate(self):
+      self.bit_width = bit_width
+      self.sequence = self.genbit(bit_width)
+      self.bit_split = bit_split
       return
+   
+   @staticmethod
+   def genbit(n): #OK
+      def helper(n, bs=''): #https://stackoverflow.com/questions/64890117/what-is-the-best-way-to-generate-all-binary-strings-of-the-given-length-in-pytho
+         if len(bs) == n:
+            bs_lst.append(bs)
+         else:
+            helper(n, bs + '0')
+            helper(n, bs + '1')
+   
+      bs_lst = []
+      helper(n)
+      return bs_lst
 
 
-opA, opB = [1]*4, [1]*4
-print(opA, opB)
+a = TESTER('a', 3)
+print(a.sequence)
