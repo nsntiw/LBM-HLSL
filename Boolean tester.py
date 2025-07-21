@@ -16,7 +16,7 @@ class test():
    def __init__(self, operation, num_bits):
       self.operation = operation
       self.num_bits = num_bits
-      self.sequence 
+      self.sequence = []
    
    def generate(self):
       return
