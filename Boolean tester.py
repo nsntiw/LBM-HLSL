@@ -29,10 +29,15 @@ class bool_op():
       return 1 if a1+a2==1 else 0
 
 class TESTER():
-   def __init__(self, operation, bit_width, bit_split=[]):
+   '''
+   Sample usage:
+   temp_tester = TESTER(2, [1, 1], bool_op.XOR)
+   temp_tester.generate_truth_table()
+   '''
+   def __init__(self, bit_width=0, bit_split=[], operation=bool_op.ADD):
       self.operation = operation
       self.bit_width = bit_width
-      self.sequence = self.genbit(bit_width)
+      self.bitstr_lst = self.genbit(bit_width)
       self.bit_split = bit_split
       return
    
@@ -49,6 +54,25 @@ class TESTER():
       helper(n)
       return bs_lst
 
+   def generate_truth_table(self):
+      def get_inputs(bitstr, bit_split):
+         result = []
+         start = 0
+         for i in bit_split:
+            substring = bitstr[start:start+i]
+            result.append(substring)
+            start += i
+         return result
+      
+      truth_table = []
+      for bitstr in self.bitstr_lst:
+         input_lst = get_inputs(bitstr, self.bit_split)
+         output = self.operation(*tuple(list(map(int, input_lst))))
+         truth_table.append([input_lst, output])
 
-a = TESTER('a', 3)
-print(a.sequence)
+      print(*tuple(truth_table), sep='\n')
+      return truth_table
+
+
+
+
