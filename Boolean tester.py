@@ -74,5 +74,16 @@ class TESTER():
       return truth_table
 
 
+carry_flag = 0
+
+R3 = i = 1
+R0 = a = 0, R1 = b = 0
+
+while a < 16 and b < 16:
+   b = b + a #Perform OP
+   b = b - a #Reverse OP
+   carry = 1 if a == 1111 else 0
+   a = a + i #Increment R1
+   b = b + carry
 
 
