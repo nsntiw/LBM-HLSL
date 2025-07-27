@@ -43,6 +43,42 @@ matrix_lst.append(
     [1,1,0,0],
     [0,0,0,0],]
 )
+matrix_lst.append(
+    [[0,0,0,0],
+    [0,0,0,0],
+    [0,0,0,1],
+    [1,1,1,0],]
+)
+matrix_lst.append(
+    [[0,0,0,0],
+    [0,0,0,1],
+    [1,1,1,0],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[0,0,0,1],
+    [1,1,1,0],
+    [0,0,0,0],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[0,1,1,1],
+    [1,0,0,0],
+    [0,0,0,0],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[0,0,0,0],
+    [0,1,1,1],
+    [1,0,0,0],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[0,0,0,0],
+    [0,0,0,0],
+    [0,1,1,1],
+    [1,0,0,0],]
+)
 #==================
 matrix_lst.append(
     [[1,0,0,0],
@@ -82,7 +118,80 @@ matrix_lst.append(
     [0,1,1,0],
     [0,0,1,1],]
 )
-label_lst=[0,0,0,0,0,0,1,1,1,1,1,1]
+matrix_lst.append(
+    [[0,0,0,0],
+    [0,0,0,0],
+    [1,1,1,0],
+    [0,0,0,1],]
+)
+matrix_lst.append(
+    [[0,0,0,0],
+    [1,1,1,0],
+    [0,0,0,1],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[1,1,1,0],
+    [0,0,0,1],
+    [0,0,0,0],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[1,0,0,0],
+    [0,1,1,1],
+    [0,0,0,0],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[0,0,0,0],
+    [1,0,0,0],
+    [0,1,1,1],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[0,0,0,0],
+    [0,0,0,0],
+    [1,0,0,0],
+    [0,1,1,1],]
+)
+#==================
+matrix_lst.append(
+    [[0,0,0,0],
+    [0,0,0,0],
+    [0,1,1,0],
+    [1,0,0,1],]
+)
+matrix_lst.append(
+    [[0,0,0,0],
+    [0,1,1,0],
+    [1,0,0,1],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[0,1,1,0],
+    [1,0,0,1],
+    [0,0,0,0],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[1,0,0,1],
+    [0,1,1,0],
+    [0,0,0,0],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[0,0,0,0],
+    [1,0,0,1],
+    [0,1,1,0],
+    [0,0,0,0],]
+)
+matrix_lst.append(
+    [[0,0,0,0],
+    [0,0,0,0],
+    [1,0,0,1],
+    [0,1,1,0],]
+)
+label_lst=[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,0.5]
 class SlopeDataset(Dataset):
     def __init__(self):
         self.data = torch.stack([torch.tensor(i, dtype=torch.float32).unsqueeze(0) for i in matrix_lst])
@@ -98,13 +207,13 @@ class PixelConvNet(nn.Module):
     def __init__(self):
         super().__init__()
         # pixel-wise linear layer: one neuron per pixel
-        self.pixel_fc = nn.Conv2d(1, 1, kernel_size=1)
+        #self.pixel_fc = nn.Conv2d(1, 1, kernel_size=1)
         # convolutional layer
-        self.conv = nn.Conv2d(1, 1, kernel_size=3, padding=1)
+        #self.conv = nn.Conv2d(1, 1, kernel_size=3, padding=1)
         # post-conv pixel-wise layer: one neuron per feature map pixel
-        self.post_conv_fc = nn.Conv2d(1, 1, kernel_size=1)
+        #self.post_conv_fc = nn.Conv2d(1, 1, kernel_size=1)
         # classifier: two outputs for up/down
-        self.classifier = nn.Linear(4*4*1, 2)
+        #self.classifier = nn.Linear(4*4*1, 2)
 
         self.quad_conv = nn.Conv2d(in_channels=1, out_channels=1,
                                    kernel_size=2, stride=2, padding=0)
@@ -184,6 +293,30 @@ test_lst.append(
 )
 test_lst.append(
     [[1,0,0,0],
+    [1,0,0,0],
+    [1,0,0,0],
+    [1,0,0,0],]
+)
+test_lst.append(
+    [[0,1,0,0],
+    [0,1,0,0],
+    [0,1,0,0],
+    [0,1,0,0],]
+)
+test_lst.append(
+    [[0,0,1,0],
+    [0,0,1,0],
+    [0,0,1,0],
+    [0,0,1,0],]
+)
+test_lst.append(
+    [[0,0,0,1],
+    [0,0,0,1],
+    [0,0,0,1],
+    [0,0,0,1],]
+)
+test_lst.append(
+    [[1,0,0,0],
     [0,1,0,0],
     [0,0,1,0],
     [0,0,0,1],]
@@ -191,3 +324,13 @@ test_lst.append(
 test_lst = [predict(i) for i in test_lst]
 [print(f"Up pattern -> P(up)={i[0]:.4f}, P(down)={i[1]:.4f}") for i in test_lst]
 
+for name, param in model.named_parameters():
+    if param.requires_grad:
+        print(name, param.data)
+
+
+
+    [a,0,0,0]    [0,0,0,0]
+    [0,0,0,0]    [0,0,0,0]
+    [0,0,0,0]    [0,0,0,0]
+    [0,0,0,0]    [0,0,0,0]
