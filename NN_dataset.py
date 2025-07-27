@@ -155,9 +155,9 @@ def label_bit_mx(bit_mx):
 
    # 4) check for vertical/horizontal
    if dc == 0 or dr == 0:
-      return 0
+      return 0.5
    # upslope if dr*dc < 0, downslope if dr*dc > 0
-   return 1 if dr*dc < 0 else -1
+   return 0 if dr*dc < 1 else 1
 
 
 px_x, px_y, samples = 4, 4, 4
@@ -174,7 +174,13 @@ for mx, label in zip(dataset, labels):
    print(label)
    print("--------------------------")
 
-
+print(dataset[0:10])
+print(labels[0:10])
+import pickle
+with open('dataset.txt', 'wb') as fp:
+   pickle.dump(dataset, fp)
+with open('labels.txt', 'wb') as fp:
+   pickle.dump(labels, fp)
 
 
 #if __name__ == '__main__':

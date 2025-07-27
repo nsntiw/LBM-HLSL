@@ -2,200 +2,20 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
+import pickle
 
-# 1) Define dataset
-matrix_lst = []
-matrix_lst.append(
-    [[0,0,0,1],
-    [0,0,1,0],
-    [0,1,0,0],
-    [1,0,0,0],]
-)
-#--
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,0,0,0],
-    [0,0,1,1],
-    [1,1,0,0],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,0,1,1],
-    [1,1,0,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,0,1,1],
-    [1,1,0,0],
-    [0,0,0,0],
-    [0,0,0,0],]
-)
-#--
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,0,1,1],
-    [0,1,1,0],
-    [1,1,0,0],]
-)
-matrix_lst.append(
-    [[0,0,1,1],
-    [0,1,1,0],
-    [1,1,0,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,0,0,0],
-    [0,0,0,1],
-    [1,1,1,0],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,0,0,1],
-    [1,1,1,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,0,0,1],
-    [1,1,1,0],
-    [0,0,0,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,1,1,1],
-    [1,0,0,0],
-    [0,0,0,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,1,1,1],
-    [1,0,0,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,0,0,0],
-    [0,1,1,1],
-    [1,0,0,0],]
-)
-#==================
-matrix_lst.append(
-    [[1,0,0,0],
-    [0,1,0,0],
-    [0,0,1,0],
-    [0,0,0,1],]
-)
-#--
-matrix_lst.append(
-    [[1,1,0,0],
-    [0,0,1,1],
-    [0,0,0,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,0,0,0],
-    [1,1,0,0],
-    [0,0,1,1],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [1,1,0,0],
-    [0,0,1,1],
-    [0,0,0,0],]
-)
-#--
-matrix_lst.append(
-    [[1,1,0,0],
-    [0,1,1,0],
-    [0,0,1,1],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [1,1,0,0],
-    [0,1,1,0],
-    [0,0,1,1],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,0,0,0],
-    [1,1,1,0],
-    [0,0,0,1],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [1,1,1,0],
-    [0,0,0,1],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[1,1,1,0],
-    [0,0,0,1],
-    [0,0,0,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[1,0,0,0],
-    [0,1,1,1],
-    [0,0,0,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [1,0,0,0],
-    [0,1,1,1],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,0,0,0],
-    [1,0,0,0],
-    [0,1,1,1],]
-)
-#==================
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,0,0,0],
-    [0,1,1,0],
-    [1,0,0,1],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,1,1,0],
-    [1,0,0,1],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,1,1,0],
-    [1,0,0,1],
-    [0,0,0,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[1,0,0,1],
-    [0,1,1,0],
-    [0,0,0,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [1,0,0,1],
-    [0,1,1,0],
-    [0,0,0,0],]
-)
-matrix_lst.append(
-    [[0,0,0,0],
-    [0,0,0,0],
-    [1,0,0,1],
-    [0,1,1,0],]
-)
-label_lst=[0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,0.5]
+with open ('dataset.txt', 'rb') as fp:
+    dataset = pickle.load(fp)
+
+with open ('labels.txt', 'rb') as fp:
+    labels = pickle.load(fp)
+
+labels = [i for i in labels]
+
 class SlopeDataset(Dataset):
     def __init__(self):
-        self.data = torch.stack([torch.tensor(i, dtype=torch.float32).unsqueeze(0) for i in matrix_lst])
-        self.labels = torch.tensor(label_lst, dtype=torch.long)  # 0=up, 1=down
+        self.data = torch.stack([torch.tensor(i, dtype=torch.float32).unsqueeze(0) for i in dataset])
+        self.labels = torch.tensor(labels, dtype=torch.long)  # 0=up, 1=down
 
     def __len__(self): return len(self.labels)
     def __getitem__(self, idx): return self.data[idx], self.labels[idx]
@@ -329,8 +149,3 @@ for name, param in model.named_parameters():
         print(name, param.data)
 
 
-
-    [a,0,0,0]    [0,0,0,0]
-    [0,0,0,0]    [0,0,0,0]
-    [0,0,0,0]    [0,0,0,0]
-    [0,0,0,0]    [0,0,0,0]
