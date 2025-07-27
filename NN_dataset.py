@@ -5,7 +5,6 @@ from functools import lru_cache
 def get_sample_range(px, samples):
    return range(px*samples)
 
-
 px_x, px_y, samples = 4, 4, 1
 dataset = []
 
@@ -14,17 +13,13 @@ dataset = []
 #Unique combinations: 240/2 = 120
 pt_pairs = [(x, y) for x in range(px_x*samples) for y in range(px_y*samples)]
 pt_pairs = [(pt_0, pt_1) for pt_0 in pt_pairs for pt_1 in pt_pairs if pt_0 < pt_1] #Only unique pt pairs containing unique pts. 'pt_0 < pt1' good
-print(pt_pairs)
-print(len(pt_pairs))
 
+for pts in pt_pairs:
+   #int((abs(pts[1][0] - pts[0][0])**2 + abs(pts[1][1] - pts[0][1])**2)**0.5)
+   num_steps = max(abs(pts[1][0] - pts[0][0]), abs(pts[1][1] - pts[0][1])) + 1
 
-breakpoint
-for pt_0, pt_1 in pt_pairs:
-   #int((abs(pt_1[0] - pt_0[0])**2 + abs(pt_1[1] - pt_0[1])**2)**0.5)
-   num_steps = max(abs(pt_1[0] - pt_0[0]), abs(pt_1[1] - pt_0[1])) + 1
-
-   #line = np.arange(pt_0, pt_1, step=num_steps, dtype=int)
-   line = np.linspace(pt_0, pt_1, num=num_steps, dtype=int)
+   #line = np.arange(pts[0], pts[1], step=num_steps, dtype=int)
+   line = np.linspace(pts[0], pts[1], num=num_steps, dtype=int)
 
    bit_mx = [[0 for _ in range(px_x*samples)] for _ in range(px_y*samples)]
    for x, y in line:
@@ -32,9 +27,9 @@ for pt_0, pt_1 in pt_pairs:
       bit_mx[x][y]=1
    dataset.append('')
 
-   #print(pt_0, pt_1, num_steps)
+   #print(pt_pair[0], pt_pair[1], num_steps)
    #print(line)
-   #print(*bit_mx, sep='\n')
-   #print('---------------------------------------------------')
-   if pt_1[1] > 10 and pt_1[0]>10:
+   print(*bit_mx, sep='\n')
+   print('---------------------------------------------------')
+   if pts[1][1] > 10 and pts[1][0]>10:
       break

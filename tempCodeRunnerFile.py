@@ -1,1 +1,0 @@
-if x0 / supersample == x1 / supersample and y0 / supersample == y1 / supersample:
