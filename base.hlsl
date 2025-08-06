@@ -24,6 +24,11 @@ struct VSOUT
 	float4                  vpos        : SV_Position;
    float3                  uv          : TEXCOORD0;   
 };
+void FullscreenTriangleVS(in uint id : SV_VertexID, out float4 vpos : SV_Position, out float2 uv : TEXCOORD)
+{
+	uv = id.xx == uint2(2, 1) ? 2.0.xx : 0.0.xx;  
+	vpos = float4(uv * float2(2, -2) + float2(-1, 1), 0, 1);
+}
 VSOUT MainVS(in uint id : SV_VertexID)
 {
    VSOUT o;
